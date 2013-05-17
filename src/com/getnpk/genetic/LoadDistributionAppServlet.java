@@ -36,8 +36,16 @@ public class LoadDistributionAppServlet extends HttpServlet {
     private Vessel vessel;
     private Stack<Container> stack;
     
-    private ArrayList<Container> container;
+    private static ArrayList<Container> container;
+    
     Vessel finalVessel;
+    
+    public static int getContainerWeightById(int containerId){
+    	for(Container c:container)
+    		if(c.getId()==containerId)
+    			return c.getWeight();
+    	return 0; 
+   }
     
     /*
     public LoadDistributionAppServlet(){
@@ -72,11 +80,12 @@ public class LoadDistributionAppServlet extends HttpServlet {
     	
     	container = new ArrayList<Container>();
     	
-    	for (int i=0 ; i<= Vessel.GRID_SIZE * Stack.STACK_MAX_SIZE; i++){
+    	for (int i=0 ; i< 100; i++){
     	
     		randomNumber = 10 + random.nextInt(100);
     		Container c = new Container(i, randomNumber);
     		container.add(c);
+    		/*
     		
     		if (stack.put(c)){
     			
@@ -84,9 +93,11 @@ public class LoadDistributionAppServlet extends HttpServlet {
     			vessel.put(stack);
     			stack = new Stack<Container>();
     			stack.put(c);
-    		}
+    		}*/
+    		vessel.put(random.nextInt(16), c);
     	}
-    	
+
+		
     	System.out.println("Vessel after Initialization: ");
     	System.out.println(vessel);
 	}
@@ -126,7 +137,10 @@ public class LoadDistributionAppServlet extends HttpServlet {
 
 		// Setup the structure with which to evolve the solution of the problem.
         // An IntegerGene is used. This gene represents the index of a Container.
-		IChromosome sampleChromosome = new Chromosome(gaConf, new IntegerGene(gaConf), chromeSize);
+		  Gene[] sampleGenes = new Gene[ 100 ];
+		  for(int i=0;i<100;i++)
+			  sampleGenes[i]=new IntegerGene(gaConf,0,Vessel.GRID_SIZE);
+		IChromosome sampleChromosome = new Chromosome(gaConf,sampleGenes);
 		gaConf.setSampleChromosome(sampleChromosome);
 		
         // Setup the fitness function
@@ -138,14 +152,14 @@ public class LoadDistributionAppServlet extends HttpServlet {
 		 * set the values to the index. Values range from 0..total number of containers.
 		 */
 		genotype = Genotype.randomInitialGenotype(gaConf);
-		List chromosomes = genotype.getPopulation().getChromosomes();
+	/*	List chromosomes = genotype.getPopulation().getChromosomes();
         for (Object chromosome : chromosomes) {
             IChromosome chrom = (IChromosome) chromosome;
             for (int j = 0; j < chrom.size(); j++) {
                 Gene gene = chrom.getGene(j);
                 gene.setAllele(j);
             }
-        }
+        }*/
         
 		return genotype;
 	}
@@ -183,33 +197,43 @@ public class LoadDistributionAppServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		resp.sendRedirect("welcome.jsp");
+		resp.sendRedirect("index.html");
 	}
 
 
 	private void makeVessel(Gene[] genes) {
 
 		// TODO CHECK THIS METHOD.
+		System.out.println("x22="+genes.length);
 		finalVessel = new Vessel();
 		Stack<Container> stack = new Stack<Container>();
 		
-		for (Gene gene: genes){
+		for (int j=0; j< 100; j++){
 	
-			int index = (Integer) gene.getAllele();
+	/*		int index = (Integer) gene.getAllele();
 			int stackId = index / Stack.STACK_MAX_SIZE;
 			int containerPos = index % Stack.STACK_MAX_SIZE;
 			
 			int containerId = this.vessel.getStackList().get(stackId).get().get(containerPos).getId();
 			int containerWeight = this.vessel.getStackList().get(stackId).get().get(containerPos).getWeight();
 					
+			Container c = new Container(containerId, containerWeight);*/
+			int index = (Integer) genes[j].getAllele();
+			int containerId = j;
+			int containerWeight = LoadDistributionAppServlet.getContainerWeightById(j);					
 			Container c = new Container(containerId, containerWeight);
-			if (stack.put(c)){
+			if(index<finalVessel.getGridSize())
+				finalVessel.put(index,c);
+
+		
+			
+			/*if (stack.put(c)){
     			
     		}else{
     			finalVessel.put(stack);
     			stack = new Stack<Container>();
     			stack.put(c);
-    		}
+    		}*/
 			
 		}
 		

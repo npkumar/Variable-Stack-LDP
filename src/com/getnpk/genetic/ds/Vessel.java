@@ -18,15 +18,12 @@ public class Vessel {
 	public Vessel(){
 		
 		grid = new ArrayList<Stack<Container>>();
+		for(int i=0;i<GRID_SIZE;i++)
+			grid.add(new Stack<Container>());
 	}
 	
-	public boolean put (Stack stack){
-		if (grid.size() == GRID_SIZE)
-			return false;
-		else{
-			grid.add(stack);
-			return true;
-		}
+	public boolean put(int stackId, Container container){
+		return grid.get(stackId).put(container);		 
 	}
 	
 	public ArrayList<Stack<Container>> getStackList(){
@@ -54,6 +51,20 @@ public class Vessel {
 		}
 		
 		return buffer.toString();
+	}
+	
+	public int penalityFunction(int min, int max){
+		int total=0;
+		for(Stack<Container> s:this.grid){
+			if((s.getLength()<min)||(s.getLength()>max))
+				total++;
+		}
+		return total*1000;
+	}
+	
+
+	public int getGridSize(){
+		return grid.size();
 	}
 	
 }

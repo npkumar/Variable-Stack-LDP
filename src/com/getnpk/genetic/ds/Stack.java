@@ -13,7 +13,7 @@ import java.util.Collections;
 
 public class Stack<T extends Container>{
 	
-	public static int STACK_MAX_SIZE = 4;
+	public static int STACK_MAX_SIZE = Integer.MAX_VALUE	;
 	
 	private ArrayList<T> stack;
 	
@@ -49,6 +49,9 @@ public class Stack<T extends Container>{
 		return sum;
 	}
 	
+	public int getLength(){
+		return stack.size();
+	}
 	
 	public String toString(){
 		return String.format("%s", stack);

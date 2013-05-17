@@ -11,6 +11,8 @@ import java.util.Random;
 import org.jgap.FitnessFunction;
 import org.jgap.IChromosome;
 
+import com.getnpk.genetic.LoadDistributionAppServlet;
+
 public class LoadFitnessFunction extends FitnessFunction{
 
 	private Vessel vessel;
@@ -40,11 +42,17 @@ public class LoadFitnessFunction extends FitnessFunction{
 		Vessel newVessel = new Vessel();
 		Stack<Container> stack = new Stack<Container>();
 		
-		for (int j=0; j< Vessel.GRID_SIZE * Stack.STACK_MAX_SIZE; j++){
+		for (int j=0; j< 100; j++){
 			
 			int index = (Integer) aSubject.getGene(j).getAllele();
+			int containerId = j;
+			int containerWeight = LoadDistributionAppServlet.getContainerWeightById(j);					
+			Container c = new Container(containerId, containerWeight);
+
+			if(index<newVessel.getGridSize())
+				newVessel.put(index,c);
 			
-			int stackId = index / Stack.STACK_MAX_SIZE;
+		/*	int stackId = index / Stack.STACK_MAX_SIZE;
 			int containerPos = index % Stack.STACK_MAX_SIZE;
 			
 			int containerId = this.vessel.getStackList().get(stackId).get().get(containerPos).getId();
@@ -57,19 +65,24 @@ public class LoadFitnessFunction extends FitnessFunction{
     			newVessel.put(stack);
     			stack = new Stack<Container>();
     			stack.put(c);
-    		}
+    		}*/
 		}
-		
+		//newVessel.put(stack);
 		
 		ArrayList<Stack<Container>> repo = newVessel.getStackList();
 		
 		for (Stack<Container> s: repo){
-			indexes[i] = Math.abs(totalAverage - (s.getTotalStackWeight() / Stack.STACK_MAX_SIZE));
+			if(s.getLength()==0)
+				indexes[i]=0;
+			else
+				indexes[i] = Math.abs(totalAverage - s.getTotalStackWeight() );
 			i++;
 		}
 		
 		for (int k : indexes)
 			eval += k;
+		
+		eval+=newVessel.penalityFunction(1, 8);
 
 		return eval;
 		//return 10 + new Random().nextInt(100);

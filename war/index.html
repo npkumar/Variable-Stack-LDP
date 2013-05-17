@@ -1,20 +1,173 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
-<!-- above set at the top of the file will set     -->
-<!-- the browser's rendering engine into           -->
-<!-- "Quirks Mode". Replacing this declaration     -->
-<!-- with a "Standards Mode" doctype is supported, -->
-<!-- but may lead to some differences in layout.   -->
+
 
 <html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Hello App Engine</title>
-  </head>
-
-  <body>
-    <h1>Hello App Engine!</h1>
+	<head>
+	<link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+	<title>Load Distribution Problem</title>
+	<script type="text/javascript">
+	function validateForm() {
 	
- 
+	if (document.getElementById("StackSize").value==''){
+			alert("The Stack Size is not set");
+		document.getElementById("StackSize").focus();
+		return false;
+	}
+	
+	if (document.getElementById("Width").value==''){
+			alert("The Width is not set");
+		document.getElementById("Width").focus();
+		return false;
+	}
+	
+	if (document.getElementById("Breadth").value==''){
+			alert("The Breadth is not set");
+		document.getElementById("Breadth").focus();
+		return false;
+	}
+		
+	if (document.getElementById("Evolutions").value==''){
+			alert("The No. of Evolutions is not set");
+		document.getElementById("Evolutions").focus();
+		return false;
+	}
+		
+	if (document.getElementById("PopulationSize").value==''){
+			alert("The Population Size is not set");
+		document.getElementById("PopulationSize").focus();
+		return false;
+	}
+		
+	if (document.getElementById("CrossoverRate").value==''){
+			alert("The Crossover Rate is not set");
+		document.getElementById("CrossoverRate").focus();
+		return false;
+	}
+		
+	if (document.getElementById("MutationRate").value==''){
+			alert("The Mutation Rate is not set");
+		document.getElementById("MutationRate").focus();
+		return false;
+	}
+		
+	return true;
+	}
+	
+	function checkNum(field){
+	var x=document.getElementById(field).value;
+	if(isNaN(x)){
+		if(x.length==1)
+			x=''
+		else
+			x=x.substr(0,x.length-1);
+		document.getElementById(field)=x;
+	}
+		document.getElementById(field).focus();
+	}
+	
+	
+	function validateField(field){
+	
+	var x=document.getElementById(field).value;
+	if(x=='')
+		return;
+	if(isNaN(x)){
+		alert("Please enter only numbers");
+		document.getElementById(field).value='';
+		document.getElementById(field).focus();
+		return;
+	}
+	
+	if(field=="StackSize"){
+		if((x<1)||(x>10))	{
+			alert("The Stack Size has to between 1 and 10");
+			document.getElementById(field).value='';
+			document.getElementById(field).focus();
+		}
+	}
+	
+		if(field=="Width"){
+		if((x<1)||(x>10))	{
+			alert("The width  has to between 1 and 10");
+			document.getElementById(field).value='';
+			document.getElementById(field).focus();
+		}
+	}
+	
+		if(field=="Breadth"){
+		if((x<1)||(x>10))	{
+			alert("The breadth has to between 1 and 10");
+			document.getElementById(field).value='';
+			document.getElementById(field).focus();
+		}
+	}
+	
+		if(field=="Evolutions"){
+		if((x<50)||(x>1000))	{
+			alert("The no. of Evolutions has to between 50 and 1000");
+			document.getElementById(field).value='';
+			document.getElementById(field).focus();
+		}
+	}
+	
+		if(field=="PopulationSize"){
+		if((x<10)||(x>200))	{
+			alert("The Population Size has to between 10 and 200");
+			document.getElementById(field).value='';
+			document.getElementById(field).focus();
+		}
+	}
+	
+		if(field=="CrossoverRate"){
+		if((x<.01)||(x>.99))	{
+			alert("The Crossover Rate has to between .01 and .99");
+			document.getElementById(field).value='';
+			document.getElementById(field).focus();
+		}
+	}
+		
+		if(field=="MutationRate"){
+		if((x<.01)||(x>.99))	{
+			alert("The Mutation Rate has to between .01 and .99");
+			document.getElementById(field).value='';
+			document.getElementById(field).focus();
+		}
+	}
+	}
+	
+	</script>
+	</head>
+  
+  <body>
+	<form name="detailsForm" id="detailsForm" action="/ldapp" method="post" onSubmit="return validateForm()">
+  	<table  style="text-align:center;float:center;" >
+	<tr><td><h2>Load Distribution Problem Simulation</h2></td></tr>
+	<tr><td><p>Stack Size of four. And the Container area a grid size of 5 X 5. 500 evolutions.</p></td></tr>
+	<tr><td><p>Weights of containers are randomly generated.</p></td></tr>
+	<tr><td><p></p></td></tr>
+	<tr><td><p></p></td></tr>
+	<tr><td><p></p></td></tr>
+	<tr><td><p></p></td></tr>
+	<tr><td><table><tr><td>
+	<h4>Load Distribution Configuration</h4></td>
+	<td style="float:right;"><h4> Genetic Alogrithm Configuration</h4></td></tr>
+	<tr><td><table name="LoadConfigTable" style="text-align:center;" align="center">
+  	        <tr><td>Stack Size</td><td><input type="text" name="StackSize" id="StackSize" value="4" onblur="validateField('StackSize')"></td></tr>
+  	        <tr><td>Width</td><td><input type="text" name="width" id="Width" value="4" onblur="validateField('Width')"></td></tr>
+  	        <tr><td>Breadth</td><td><input type="text" name="breadth" id="Breadth" value="4" onblur="validateField('Breadth')"></td></tr>
+  	</table></td><td style="float:right;">
+  	<table name="GAConfigTable" style="text-align:center;" align="center">
+  	        <tr><td>Evolutions</td><td>	<input type="text" name="evolutions" id="evolutions" value="100" onblur="validateField('Evolutions')"></td></tr>
+  	        <tr><td>Population Size</td><td><input type="text" name="population" id="PopulationSize" value="50" onblur="validateField('PopulationSize')"></td></tr>
+  	        <tr><td>Crossover Rate</td><td><input type="text" name="CrossoverRate" id="CrossoverRate" value=".5" onblur="validateField('CrossoverRate')"></td></tr>
+  	        <tr><td>Mutation Rate</td><td><input type="text" name="MutationRate" id="MutationRate" value=".05" onblur="validateField('MutationRate')"></td></tr>
+  	</table></td></tr>
+	</table></td></tr>
+	<tr><td><p></p></td></tr>
+	<tr><td><p></p></td></tr>
+	<tr><td><p></p></td></tr>
+	<tr><td style="float:right;"><input type="submit" value="Run Simulation"/></td></tr>
+	</table>
+	</form>
   </body>
 </html>
+
