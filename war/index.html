@@ -7,9 +7,9 @@
 	<script type="text/javascript">
 	function validateForm() {
 	
-	if (document.getElementById("StackSize").value==''){
-			alert("The Stack Size is not set");
-		document.getElementById("StackSize").focus();
+	if (document.getElementById("Containers").value==''){
+			alert("The number of containers is not set");
+		document.getElementById("Containers").focus();
 		return false;
 	}
 	
@@ -48,7 +48,19 @@
 		document.getElementById("MutationRate").focus();
 		return false;
 	}
-		
+	
+	if (document.getElementById("Maximum").value==''){
+		alert("The Maximum stack size not set!");
+		document.getElementById("Maximum").focus();
+		return false;
+	}
+	
+	if (document.getElementById("Minimum").value==''){
+		alert("The Minimum stack size not set!");
+		document.getElementById("Minimum").focus();
+		return false;
+	}
+	
 	return true;
 	}
 	
@@ -77,9 +89,9 @@
 		return;
 	}
 	
-	if(field=="StackSize"){
-		if((x<1)||(x>10))	{
-			alert("The Stack Size has to between 1 and 10");
+	if(field=="Containers"){
+		if((x<64)||(x>150))	{
+			alert("The total number of containers has to between 64 and 150");
 			document.getElementById(field).value='';
 			document.getElementById(field).focus();
 		}
@@ -126,40 +138,82 @@
 	}
 		
 		if(field=="MutationRate"){
-		if((x<.01)||(x>.99))	{
-			alert("The Mutation Rate has to between .01 and .99");
+		if((x<9)||(x>100))	{
+			alert("The Mutation Rate has to between 10 and 99");
 			document.getElementById(field).value='';
 			document.getElementById(field).focus();
 		}
 	}
+
+		if(field=="Maximum"){
+			if((x<4)||(x>20))	{
+				alert("The Maximum stack size is between 4 and 20");
+				document.getElementById(field).value='';
+				document.getElementById(field).focus();
+			}
+		}
+
+		if(field=="Minimum"){
+			if((x<1))	{
+				alert("The minimum stack size is 1.");
+				document.getElementById(field).value='';
+				document.getElementById(field).focus();
+			}
+		}
+	
 	}
 	
 	</script>
+	
+	<style>
+		body {
+		 	font-family: Helvetica, Arial, sans-serif;
+    		font-size: 14px;
+			width: 700px;
+    		margin: 0 auto;
+		}
+		
+		input[type=submit] {
+ 			 font-size: 18px;
+		}
+		
+		table {
+    		margin: 0 auto;
+		}
+	</style>
+	
 	</head>
   
   <body>
+  <a href="about.html"><img src="img/header.png"></a>
+  <!-- <h2 style="text-align:center;">Load Distribution Problem Simulation</h2> -->
+  <hr />
+  
 	<form name="detailsForm" id="detailsForm" action="/ldapp" method="post" onSubmit="return validateForm()">
   	<table  style="text-align:center;float:center;" >
-	<tr><td><h2>Load Distribution Problem Simulation</h2></td></tr>
-	<tr><td><p>Stack Size of four. And the Container area a grid size of 5 X 5. 500 evolutions.</p></td></tr>
-	<tr><td><p>Weights of containers are randomly generated.</p></td></tr>
+	<!--  <tr><td><h2>Load Distribution Problem Simulation</h2></td></tr>  -->
+	
+	<tr></tr>
 	<tr><td><p></p></td></tr>
 	<tr><td><p></p></td></tr>
 	<tr><td><p></p></td></tr>
-	<tr><td><p></p></td></tr>
-	<tr><td><table><tr><td>
-	<h4>Load Distribution Configuration</h4></td>
-	<td style="float:right;"><h4> Genetic Alogrithm Configuration</h4></td></tr>
+	<tr><td><table>
+	<tr>
+	<td><h4 style="text-align:center;">Load Distribution Configuration</h4></td>
+	<td style="float:right;text-align:center;"><h4>Genetic Algorithm Configuration</h4></td>
+	</tr>
 	<tr><td><table name="LoadConfigTable" style="text-align:center;" align="center">
-  	        <tr><td>Stack Size</td><td><input type="text" name="StackSize" id="StackSize" value="4" onblur="validateField('StackSize')"></td></tr>
-  	        <tr><td>Width</td><td><input type="text" name="width" id="Width" value="4" onblur="validateField('Width')"></td></tr>
-  	        <tr><td>Breadth</td><td><input type="text" name="breadth" id="Breadth" value="4" onblur="validateField('Breadth')"></td></tr>
+  	        <tr><td>Containers</td><td><input type="text" name="containers" id="Containers" value="100" onblur="validateField('Containers')"></td></tr>
+  	        <tr><td>Grid Width</td><td><input type="text" name="width" id="Width" value="4" onblur="validateField('Width')"></td></tr>
+  	        <tr><td>Grid Breadth</td><td><input type="text" name="breadth" id="Breadth" value="4" onblur="validateField('Breadth')"></td></tr>
+  	        <tr><td>Maximum Stack Size</td><td><input type="text" name="maximum" id="Maximum" value="8" onblur="validateField('Maximum')"></td></tr>
+  	        <tr><td>Minimum Stack Size</td><td><input type="text" name="minimum" id="Minimum" value="1" onblur="validateField('Minimum')"></td></tr>
   	</table></td><td style="float:right;">
   	<table name="GAConfigTable" style="text-align:center;" align="center">
-  	        <tr><td>Evolutions</td><td>	<input type="text" name="evolutions" id="evolutions" value="100" onblur="validateField('Evolutions')"></td></tr>
+  	        <tr><td>Evolutions</td><td>	<input type="text" name="evolutions" id="Evolutions" value="100" onblur="validateField('Evolutions')"></td></tr>
   	        <tr><td>Population Size</td><td><input type="text" name="population" id="PopulationSize" value="50" onblur="validateField('PopulationSize')"></td></tr>
-  	        <tr><td>Crossover Rate</td><td><input type="text" name="CrossoverRate" id="CrossoverRate" value=".5" onblur="validateField('CrossoverRate')"></td></tr>
-  	        <tr><td>Mutation Rate</td><td><input type="text" name="MutationRate" id="MutationRate" value=".05" onblur="validateField('MutationRate')"></td></tr>
+  	        <tr><td>Crossover Rate</td><td><input type="text" name="crossover" id="CrossoverRate" value="0.5" onblur="validateField('CrossoverRate')"></td></tr>
+  	        <tr><td>Mutation Rate</td><td><input type="text" name="mutation" id="MutationRate" value="10" onblur="validateField('MutationRate')"></td></tr>
   	</table></td></tr>
 	</table></td></tr>
 	<tr><td><p></p></td></tr>
@@ -170,4 +224,3 @@
 	</form>
   </body>
 </html>
-

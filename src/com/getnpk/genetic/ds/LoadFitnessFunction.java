@@ -42,7 +42,7 @@ public class LoadFitnessFunction extends FitnessFunction{
 		Vessel newVessel = new Vessel();
 		Stack<Container> stack = new Stack<Container>();
 		
-		for (int j=0; j< 100; j++){
+		for (int j=0; j< LoadDistributionAppServlet.NUMBER_OF_CONTAINERS ; j++){
 			
 			int index = (Integer) aSubject.getGene(j).getAllele();
 			int containerId = j;
@@ -82,7 +82,7 @@ public class LoadFitnessFunction extends FitnessFunction{
 		for (int k : indexes)
 			eval += k;
 		
-		eval+=newVessel.penalityFunction(1, 8);
+		eval+=newVessel.penalityFunction();
 
 		return eval;
 		//return 10 + new Random().nextInt(100);

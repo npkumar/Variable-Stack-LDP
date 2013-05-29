@@ -12,6 +12,8 @@ public class Vessel {
 	public static int ROWS = 4;
 	public static int COLUMNS = 4;
 	public static int GRID_SIZE = ROWS * COLUMNS;
+	public static int MINIMUM_PENALTITY = 1;
+	public static int MAXIMUM_PENALTITY = 8;
 	
 	private ArrayList<Stack<Container>> grid;
 	
@@ -53,10 +55,10 @@ public class Vessel {
 		return buffer.toString();
 	}
 	
-	public int penalityFunction(int min, int max){
+	public int penalityFunction(){
 		int total=0;
 		for(Stack<Container> s:this.grid){
-			if((s.getLength()<min)||(s.getLength()>max))
+			if((s.getLength()< Vessel.MINIMUM_PENALTITY )||(s.getLength()> Vessel.MAXIMUM_PENALTITY ))
 				total++;
 		}
 		return total*1000;
