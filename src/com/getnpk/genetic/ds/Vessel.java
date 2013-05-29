@@ -65,6 +65,14 @@ public class Vessel {
 	}
 	
 
+	public int getTotalContainers(){
+		int total = 0;
+		for (Stack<Container>  c : this.getStackList()){
+			total += c.getLength();
+		}
+		return total;
+	}
+	
 	public int getGridSize(){
 		return grid.size();
 	}

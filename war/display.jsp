@@ -12,6 +12,7 @@ Vessel finalVessel = null;
 ArrayList<Integer> mylist = new ArrayList<Integer>();
 if (request.getAttribute("final") != null){
 	finalVessel = (Vessel) request.getAttribute("final");
+	
 }
 
 // For the Graph

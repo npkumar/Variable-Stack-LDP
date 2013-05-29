@@ -110,6 +110,7 @@ public class LoadDistributionAppServlet extends HttpServlet {
 
 		
     	System.out.println("Vessel after Initialization: ");
+    	System.out.println("Containers in Vessel: " + vessel.getTotalContainers());
     	System.out.println(vessel);
 	}
     
@@ -157,7 +158,7 @@ public class LoadDistributionAppServlet extends HttpServlet {
         // An IntegerGene is used. This gene represents the index of a Container.
 		  Gene[] sampleGenes = new Gene[ LoadDistributionAppServlet.NUMBER_OF_CONTAINERS ];
 		  for(int i=0;i<LoadDistributionAppServlet.NUMBER_OF_CONTAINERS ;i++)
-			  sampleGenes[i]=new IntegerGene(gaConf,0,Vessel.GRID_SIZE);
+			  sampleGenes[i]=new IntegerGene(gaConf,0,Vessel.GRID_SIZE - 1);
 		IChromosome sampleChromosome = new Chromosome(gaConf,sampleGenes);
 		gaConf.setSampleChromosome(sampleChromosome);
 		
@@ -263,6 +264,7 @@ public class LoadDistributionAppServlet extends HttpServlet {
 		}
 		
 		System.out.println("Final suggestions: ");
+		System.out.println("Containers in Final Vessel: " + finalVessel.getTotalContainers());
 		System.out.println(finalVessel);
 		
 		
@@ -299,7 +301,6 @@ public class LoadDistributionAppServlet extends HttpServlet {
     	
     	req.setAttribute("final", finalVessel);
     	req.setAttribute("graphArray", graphArray);
-    	
     	
     	
     	RequestDispatcher rd = req.getRequestDispatcher("display.jsp");
