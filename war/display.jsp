@@ -1,3 +1,6 @@
+
+
+<%@page import="java.util.HashMap"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Random"%>
 <%@page import="com.getnpk.genetic.ds.Container"%>
@@ -6,15 +9,30 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="java.util.List" %>
 
-<%
 
+<%
 Vessel finalVessel = null;
 ArrayList<Integer> mylist = new ArrayList<Integer>();
 if (request.getAttribute("final") != null){
 	finalVessel = (Vessel) request.getAttribute("final");
 	
 }
-
+HashMap<String,String> hm= (HashMap<String,String>) session.getAttribute("configs");
+if(hm==null){
+	hm=new HashMap<String,String>();
+	hm.put("container","100");
+	hm.put("width","4");
+	hm.put("breadth","4");
+	hm.put("maxStackSize","8");
+	hm.put("minStackSize","1");
+	hm.put("evolutions","100");
+	hm.put("population","50");
+	hm.put("crossover",".5");
+	hm.put("mutation","10");
+	session.setAttribute("configs",hm);
+}else{
+	session.setAttribute("configs",hm);
+}
 // For the Graph
 ArrayList<Double> values = (ArrayList<Double>) request.getAttribute("graphArray");
 //int evolutions= Integer.parseInt((String)request.getAttribute("evol"));
@@ -64,6 +82,8 @@ ArrayList<Double> values = (ArrayList<Double>) request.getAttribute("graphArray"
 	<style> 
 	
 body {
+ 	font-family: Sans-serif, Helvetica, Arial;
+    font-size: 16px;
 	width: 800px;
     margin: 0 auto;
 }
@@ -84,6 +104,8 @@ table,th, td
 {
 border: 2px solid black;
 text-align:center;
+border-collapse:collapse;
+margin: 0 auto;
 }
 
 
@@ -159,13 +181,34 @@ margin-left:3px;
 	</head>
   
   <body onload="init();" >	
-  
-  	<div id="chart_div" style="width: 800px; height: 500px;"></div>
   	
+  	
+  	
+  	<table  style="text-align:center;float:center;" >
+	<tr><td><table>	<tr>
+	<td><h4 style="text-align:center;">Load Distribution Configuration</h4></td>
+	<td style="float:right;text-align:center;"><h4>Genetic Algorithm Configuration</h4></td>	</tr>
+	<tr><td><table name="LoadConfigTable" style="text-align:center;" align="center">
+  	        <tr><td>Containers</td><td><%=(String)hm.get("container")%></td></tr>
+  	        <tr><td>Grid Width</td><td><%=(String)hm.get("width")%></td></tr>
+  	        <tr><td>Grid Breadth</td><td><%=(String)hm.get("breadth")%></td></tr>
+  	        <tr><td>Maximum Stack Size</td><td><%=(String)hm.get("maxStackSize")%></td></tr>
+  	        <tr><td>Minimum Stack Size</td><td><%=(String)hm.get("minStackSize")%></td></tr>
+  	</table></td><td style="float:right;">
+  	<table name="GAConfigTable" style="text-align:center;" align="center">
+  	        <tr><td>Evolutions</td><td><%=(String)hm.get("evolutions")%></td></tr>
+  	        <tr><td>Population Size</td><td><%=(String)hm.get("population")%></td></tr>
+  	        <tr><td>Crossover Rate</td><td><%=(String)hm.get("crossover")%></td></tr>
+  	        <tr><td>Mutation Rate</td><td><%=(String)hm.get("mutation")%></td></tr>
+  	</table></td></tr>	</table></td></tr>	</table>
+	
+	
+	
+  	<div id="chart_div" style="width: 800px; height: 500px;"></div>  	
   	<h3>Click on Stack for more details.</h3>
   	<div id="stackTable"></div>	
   	<div id="stacklist"></div>
-  	<a style="position: fixed; top:5px;right:5px;" href="index.html" title="Home Page"><img src="img/home.png"></a>
+  	<a style="position: fixed; top:5px;right:5px;" href="index.jsp" title="Home Page"><img src="img/home.png"></a>
   	<a style="position: fixed; top:50px;right:5px;" href="about.html" title="About"><img src="img/about.png"></a>
   	<a style="position: fixed; top:95px;right:5px;" href="#" title="Click to go to top"><img src="img/top.png"></a>
   	

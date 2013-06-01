@@ -3,6 +3,7 @@ package com.getnpk.genetic;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -273,6 +274,9 @@ public class LoadDistributionAppServlet extends HttpServlet {
 	
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     	
+    	HttpSession session = req.getSession();
+    	HashMap<String, String> hm = (HashMap<String, String>) session.getAttribute("configs");
+    	
     	LoadDistributionAppServlet.NUMBER_OF_EVOLUTIONS = Integer.parseInt(req.getParameter("evolutions"));
     	LoadDistributionAppServlet.SIZE_OF_POPULATION = Integer.parseInt(req.getParameter("population"));
     	LoadDistributionAppServlet.MUTATION_PERCENT = Integer.parseInt(req.getParameter("mutation"));
@@ -285,6 +289,20 @@ public class LoadDistributionAppServlet extends HttpServlet {
     	
     	Vessel.MAXIMUM_PENALTITY = Integer.parseInt(req.getParameter("maximum"));
     	Vessel.MINIMUM_PENALTITY = Integer.parseInt(req.getParameter("minimum"));
+    	
+    	hm.put("container",req.getParameter("containers"));
+    	hm.put("width",req.getParameter("width"));
+    	hm.put("breadth",req.getParameter("breadth"));
+    	hm.put("maxStackSize",req.getParameter("maximum"));
+    	hm.put("minStackSize",req.getParameter("minimum"));
+    	hm.put("evolutions",req.getParameter("evolutions"));
+    	hm.put("population",req.getParameter("population"));
+    	hm.put("crossover",req.getParameter("crossover"));
+    	hm.put("mutation",req.getParameter("mutation"));
+    	
+    	session.setAttribute("configs", hm);
+
+    	
     	
     	//new LoadDistributionAppServlet();
 

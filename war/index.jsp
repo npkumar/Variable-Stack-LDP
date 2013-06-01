@@ -1,4 +1,26 @@
 
+ 
+<%@page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page import="java.util.HashMap" %>
+
+<%
+HashMap<String,String> hm= (HashMap<String, String>) session.getAttribute("configs");
+
+if(hm==null){
+	hm=new HashMap<String,String>();
+	hm.put("container","100");
+	hm.put("width","4");
+	hm.put("breadth","4");
+	hm.put("maxStackSize","8");
+	hm.put("minStackSize","1");
+	hm.put("evolutions","100");
+	hm.put("population","50");
+	hm.put("crossover",".5");
+	hm.put("mutation","10");
+	session.setAttribute("configs",hm);
+}
+%>
+
 
 <html>
 	<head>
@@ -203,24 +225,24 @@
 	<td style="float:right;text-align:center;"><h4>Genetic Algorithm Configuration</h4></td>
 	</tr>
 	<tr><td><table name="LoadConfigTable" style="text-align:center;" align="center">
-  	        <tr><td>Containers</td><td><input type="text" name="containers" id="Containers" value="100" onblur="validateField('Containers')"></td></tr>
-  	        <tr><td>Grid Width</td><td><input type="text" name="width" id="Width" value="4" onblur="validateField('Width')"></td></tr>
-  	        <tr><td>Grid Breadth</td><td><input type="text" name="breadth" id="Breadth" value="4" onblur="validateField('Breadth')"></td></tr>
-  	        <tr><td>Maximum Stack Size</td><td><input type="text" name="maximum" id="Maximum" value="8" onblur="validateField('Maximum')"></td></tr>
-  	        <tr><td>Minimum Stack Size</td><td><input type="text" name="minimum" id="Minimum" value="1" onblur="validateField('Minimum')"></td></tr>
+  	        <tr><td>Containers</td><td><input type="text" name="containers" id="Containers" value="<%= (String) hm.get("container") %>" onblur="validateField('Containers')"></td></tr>
+  	        <tr><td>Grid Width</td><td><input type="text" name="width" id="Width" value="<%= (String) hm.get("width") %>" onblur="validateField('Width')"></td></tr>
+  	        <tr><td>Grid Breadth</td><td><input type="text" name="breadth" id="Breadth" value="<%= (String) hm.get("breadth") %>" onblur="validateField('Breadth')"></td></tr>
+  	        <tr><td>Maximum Stack Size</td><td><input type="text" name="maximum" id="Maximum" value="<%= (String) hm.get("maxStackSize") %>" onblur="validateField('Maximum')"></td></tr>
+  	        <tr><td>Minimum Stack Size</td><td><input type="text" name="minimum" id="Minimum" value="<%= (String) hm.get("minStackSize") %>" onblur="validateField('Minimum')"></td></tr>
   	</table></td><td style="float:right;">
   	<table name="GAConfigTable" style="text-align:center;" align="center">
-  	        <tr><td>Evolutions</td><td>	<input type="text" name="evolutions" id="Evolutions" value="100" onblur="validateField('Evolutions')"></td></tr>
-  	        <tr><td>Population Size</td><td><input type="text" name="population" id="PopulationSize" value="50" onblur="validateField('PopulationSize')"></td></tr>
-  	        <tr><td>Crossover Rate</td><td><input type="text" name="crossover" id="CrossoverRate" value="0.5" onblur="validateField('CrossoverRate')"></td></tr>
-  	        <tr><td>Mutation Rate</td><td><input type="text" name="mutation" id="MutationRate" value="10" onblur="validateField('MutationRate')"></td></tr>
+  	        <tr><td>Evolutions</td><td>	<input type="text" name="evolutions" id="Evolutions" value="<%= (String) hm.get("evolutions") %>" onblur="validateField('Evolutions')"></td></tr>
+  	        <tr><td>Population Size</td><td><input type="text" name="population" id="PopulationSize" value="<%= (String) hm.get("population") %>" onblur="validateField('PopulationSize')"></td></tr>
+  	        <tr><td>Crossover Rate</td><td><input type="text" name="crossover" id="CrossoverRate" value="<%= (String) hm.get("crossover") %>" onblur="validateField('CrossoverRate')"></td></tr>
+  	        <tr><td>Mutation Rate</td><td><input type="text" name="mutation" id="MutationRate" value="<%= (String) hm.get("mutation") %>" onblur="validateField('MutationRate')"></td></tr>
   	</table></td></tr>
 	</table></td></tr>
 	<tr><td><p></p></td></tr>
 	<tr><td><p></p></td></tr>
 	<tr><td><p></p></td></tr>
 	<tr><td style="float:right;"><input type="submit" value="Run Simulation"/></td></tr>
-	</table>
+	</table> 
 	</form>
   </body>
 </html>
