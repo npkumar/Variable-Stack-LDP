@@ -50,8 +50,8 @@ ArrayList<Double> values = (ArrayList<Double>) request.getAttribute("graphArray"
       google.setOnLoadCallback(drawChart);
       
       var items = [];
-      for (var i=0; i< <%= values.size() %>; i++){
-    	  items[i] = [];
+      for (var i1=0; i1< <%= values.size() %>; i1++){
+    	  items[i1] = [];
       }
       
       var iteration = 1;
@@ -151,6 +151,7 @@ margin-left:3px;
     }
     
 	function init(){
+		
 		stackTable="<table id=\"maintable\"><tr class=\"mainrow\">";
 		stackList='';
 		var containerID;
